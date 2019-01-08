@@ -34,4 +34,6 @@ Commit 내역
         getFormData2Json함수에서 인자가 string타입일 때의 처리 수정
         기존에는 getFormData2String('arg1=1')과 같이 호출 시
         encodeURIComponent를 먼저 거치므로 'arg1%3D1'로 변환되어 정상처리 되지 않았음
+    KitsFormController v0.5.6
+        _this 필드명칭을 that으로 수정
 /

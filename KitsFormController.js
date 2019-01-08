@@ -1,16 +1,16 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.5.5
+ * Version 0.5.6
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
 		console.error('Cannot find jQuery symbol $');
 		return;
 	}
-	var _this = this;
+	var that = this;
 	var initObj = $();
-	var form = (_this.blank(formId) == '') ? initObj : $('#' + formId);
+	var form = (that.blank(formId) == '') ? initObj : $('#' + formId);
 	var impl = {
 		get: function(selector) {
 			return form.find(selector);
@@ -19,7 +19,7 @@ function KitsFormController(formId) {
 			return this.get(selector).val();
 		},
 		setValue: function(selector, value) {
-			this.get(selector).val(_this.blank(value));
+			this.get(selector).val(that.blank(value));
 		},
 		setDisabled: function(selector, flag) {
 			this.get(selector).attr('disabled', this.verify(flag));
@@ -33,43 +33,43 @@ function KitsFormController(formId) {
 	};
 	
 	this.get = function(name) {
-		return (_this.blank(name) == '') ? initObj : impl.get('[name=' + name + ']');
+		return (that.blank(name) == '') ? initObj : impl.get('[name=' + name + ']');
 	};
 	this.getById = function(id) {
-		return (_this.blank(id) == '') ? initObj : impl.get('#' + id);
+		return (that.blank(id) == '') ? initObj : impl.get('#' + id);
 	};
 	
 	this.getValue = function(name) {
-		return (_this.blank(name) == '') ? '' : impl.getValue('[name=' + name + ']');
+		return (that.blank(name) == '') ? '' : impl.getValue('[name=' + name + ']');
 	};
 	this.getValueById = function(id) {
-		return (_this.blank(id) == '') ? '' : impl.getValue('#' + id);
+		return (that.blank(id) == '') ? '' : impl.getValue('#' + id);
 	};
 	
 	this.setValue = function(name, value) {
-		if(_this.blank(name) != '') impl.setValue('[name=' + name + ']', value);
+		if(that.blank(name) != '') impl.setValue('[name=' + name + ']', value);
 		return this;
 	};
 	this.setValueById = function(id, value) {
-		if(_this.blank(id) != '') impl.setValue('#' + id, value);
+		if(that.blank(id) != '') impl.setValue('#' + id, value);
 		return this;
 	};
 	
 	this.setDisabled = function(name, flag) {
-		if(_this.blank(name) != '') impl.setDisabled('[name=' + name + ']', flag);
+		if(that.blank(name) != '') impl.setDisabled('[name=' + name + ']', flag);
 		return this;
 	};
 	this.setDisabledById = function(id, flag) {
-		if(_this.blank(id) != '') impl.setDisabled('#' + id, flag);
+		if(that.blank(id) != '') impl.setDisabled('#' + id, flag);
 		return this;
 	};
 	
 	this.setReadonly = function(name, flag) {
-		if(_this.blank(name) != '') impl.setReadonly('[name=' + name + ']', flag);
+		if(that.blank(name) != '') impl.setReadonly('[name=' + name + ']', flag);
 		return this;
 	};
 	this.setReadonlyById = function(id, flag) {
-		if(_this.blank(id) != '') impl.setReadonly('#' + id, flag);
+		if(that.blank(id) != '') impl.setReadonly('#' + id, flag);
 		return this;
 	};
 	
