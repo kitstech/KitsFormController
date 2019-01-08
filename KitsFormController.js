@@ -1,26 +1,13 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.3.0
+ * Version 0.4.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
 		console.error('Cannot find jQuery symbol $');
 		return;
 	}
-	
-	this.blank = function(s, d) {
-		if(typeof s == 'undefined' || s == null || s == '') {
-			if(typeof d == 'undefined' || d == null) {
-				return '';
-			} else {
-				return String(d);
-			}
-		} else {
-			return s;
-		}
-	};
-	
 	var _this = this;
 	var initObj = $();
 	var form = (_this.blank(formId) == '') ? initObj : $('#' + formId);
@@ -151,6 +138,18 @@ function KitsFormController(formId) {
 		return result;
 	};
 }
+
+KitsFormController.prototype.blank = function(s, d) {
+	if(typeof s == 'undefined' || s == null || s == '') {
+		if(typeof d == 'undefined' || d == null) {
+			return '';
+		} else {
+			return String(d);
+		}
+	} else {
+		return s;
+	}
+};
 
 /*
  * https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith#%ED%8F%B4%EB%A6%AC%ED%95%84

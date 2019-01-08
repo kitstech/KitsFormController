@@ -13,4 +13,7 @@ Commit 내역
     KitsFormController v0.3.0
         기본 선택자를 요소의 NAME으로 사용하도록 수정
         요소의 name과 id만으로 제어할 수 있도록 하기 위함
+        
+    KitsFormController v0.4.0
+        blank함수 prototype 객체로 분리
 /
