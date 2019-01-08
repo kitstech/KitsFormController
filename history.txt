@@ -9,4 +9,8 @@ Commit 내역
         
     KitsFormController v0.2.0
         *Class function 삭제
+        
+    KitsFormController v0.3.0
+        기본 선택자를 요소의 NAME으로 사용하도록 수정
+        요소의 name과 id만으로 제어할 수 있도록 하기 위함
 /

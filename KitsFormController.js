@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.2.0
+ * Version 0.3.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -24,65 +24,64 @@ function KitsFormController(formId) {
 	var _this = this;
 	var initObj = $();
 	var form = (_this.blank(formId) == '') ? initObj : $('#' + formId);
+	var impl = {
+		get: function(selector) {
+			return form.find(selector);
+		},
+		getValue: function(selector) {
+			return this.get(selector).val();
+		},
+		setValue: function(selector, value) {
+			this.get(selector).val(_this.blank(value));
+		},
+		setDisabled: function(selector, flag) {
+			flag = ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
+			this.get(selector).attr('disabled', flag);
+		},
+		setReadonly: function(selector, flag) {
+			flag = ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
+			this.get(selector).attr('readonly', flag);
+		}
+	};
 	
 	this.getById = function(id) {
-		return (_this.blank(id) == '') ? initObj : _this.get('#' + id);
+		return (_this.blank(id) == '') ? initObj : impl.get('#' + id);
 	};
-	this.getByName = function(name) {
-		return (_this.blank(name) == '') ? initObj : _this.get('[name=' + name + ']');
-	};
-	this.get = function(selector) {
-		return form.find(selector);
+	this.get = function(name) {
+		return (_this.blank(name) == '') ? initObj : impl.get('[name=' + name + ']');
 	};
 	
 	this.getValueById = function(id) {
-		return (_this.blank(id) == '') ? '' : _this.getValue('#' + id);
+		return (_this.blank(id) == '') ? '' : impl.getValue('#' + id);
 	};
-	this.getValueByName = function(name) {
-		return (_this.blank(name) == '') ? '' : _this.getValue('[name=' + name + ']');
-	};
-	this.getValue = function(selector) {
-		return _this.get(selector).val();
+	this.getValue = function(name) {
+		return (_this.blank(name) == '') ? '' : impl.getValue('[name=' + name + ']');
 	};
 	
 	this.setValueById = function(id, value) {
-		if(_this.blank(id) != '') _this.setValue('#' + id, value);
+		if(_this.blank(id) != '') impl.setValue('#' + id, value);
 		return this;
 	};
-	this.setValueByName = function(name, value) {
-		if(_this.blank(name) != '') _this.setValue('[name=' + name + ']', value);
-		return this;
-	};
-	this.setValue = function(selector, value) {
-		_this.get(selector).val(_this.blank(value));
+	this.setValue = function(name, value) {
+		if(_this.blank(name) != '') impl.setValue('[name=' + name + ']', value);
 		return this;
 	};
 	
 	this.setDisabledById = function(id, flag) {
-		if(_this.blank(id) != '') _this.setDisabled('#' + id, flag);
+		if(_this.blank(id) != '') impl.setDisabled('#' + id, flag);
 		return this;
 	};
-	this.setDisabledByName = function(name, flag) {
-		if(_this.blank(name) != '') _this.setDisabled('[name=' + name + ']', flag);
-		return this;
-	};
-	this.setDisabled = function(selector, flag) {
-		flag = ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
-		_this.get(selector).attr('disabled', flag);
+	this.setDisabled = function(name, flag) {
+		if(_this.blank(name) != '') impl.setDisabled('[name=' + name + ']', flag);
 		return this;
 	};
 	
 	this.setReadonlyById = function(id, flag) {
-		if(_this.blank(id) != '') _this.setReadonly('#' + id, flag);
+		if(_this.blank(id) != '') impl.setReadonly('#' + id, flag);
 		return this;
 	};
-	this.setReadonlyByName = function(name, flag) {
-		if(_this.blank(name) != '') _this.setReadonly('[name=' + name + ']', flag);
-		return this;
-	};
-	this.setReadonly = function(selector, flag) {
-		flag = ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
-		_this.get(selector).attr('readonly', flag);
+	this.setReadonly = function(name, flag) {
+		if(_this.blank(name) != '') impl.setReadonly('[name=' + name + ']', flag);
 		return this;
 	};
 	
