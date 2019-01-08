@@ -26,4 +26,6 @@ Commit 내역
         외부에서 공통적으로 사용할 수 있게하려면 인자가 undefined일 때 false를 반환하는게 맞을듯함
     KitsFormController v0.5.2
         선언 순서 변경
+    KitsFormController v0.5.3
+        blank함수 리턴타입 수정
 /

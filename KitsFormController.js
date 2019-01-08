@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.5.2
+ * Version 0.5.3
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -148,7 +148,7 @@ KitsFormController.prototype.blank = function(s, d) {
 			return String(d);
 		}
 	} else {
-		return s;
+		return String(s);
 	}
 };
 
