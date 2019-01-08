@@ -6,4 +6,7 @@ Commit 내역
         
     KitsFormController v0.1.0
         getValue*, setValue* function 추가
+        
+    KitsFormController v0.2.0
+        *Class function 삭제
 /

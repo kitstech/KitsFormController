@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.1.0
+ * Version 0.2.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -31,9 +31,6 @@ function KitsFormController(formId) {
 	this.getByName = function(name) {
 		return (_this.blank(name) == '') ? initObj : _this.get('[name=' + name + ']');
 	};
-	this.getByClass = function(className) {
-		return (_this.blank(className) == '') ? initObj : _this.get('.' + className);
-	};
 	this.get = function(selector) {
 		return form.find(selector);
 	};
@@ -43,9 +40,6 @@ function KitsFormController(formId) {
 	};
 	this.getValueByName = function(name) {
 		return (_this.blank(name) == '') ? '' : _this.getValue('[name=' + name + ']');
-	};
-	this.getValueByClass = function(className) {
-		return (_this.blank(className) == '') ? '' : _this.getValue('.' + className);
 	};
 	this.getValue = function(selector) {
 		return _this.get(selector).val();
@@ -57,10 +51,6 @@ function KitsFormController(formId) {
 	};
 	this.setValueByName = function(name, value) {
 		if(_this.blank(name) != '') _this.setValue('[name=' + name + ']', value);
-		return this;
-	};
-	this.setValueByClass = function(className, value) {
-		if(_this.blank(className) != '') _this.setValue('.' + className, value);
 		return this;
 	};
 	this.setValue = function(selector, value) {
@@ -76,10 +66,6 @@ function KitsFormController(formId) {
 		if(_this.blank(name) != '') _this.setDisabled('[name=' + name + ']', flag);
 		return this;
 	};
-	this.setDisabledByClass = function(className, flag) {
-		if(_this.blank(className) != '') _this.setDisabled('.' + className, flag);
-		return this;
-	};
 	this.setDisabled = function(selector, flag) {
 		flag = ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
 		_this.get(selector).attr('disabled', flag);
@@ -92,10 +78,6 @@ function KitsFormController(formId) {
 	};
 	this.setReadonlyByName = function(name, flag) {
 		if(_this.blank(name) != '') _this.setReadonly('[name=' + name + ']', flag);
-		return this;
-	};
-	this.setReadonlyByClass = function(className, flag) {
-		if(_this.blank(className) != '') _this.setReadonly('.' + className, flag);
 		return this;
 	};
 	this.setReadonly = function(selector, flag) {
