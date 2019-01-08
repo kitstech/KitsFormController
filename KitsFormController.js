@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.5.4
+ * Version 0.5.5
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -115,9 +115,18 @@ function KitsFormController(formId) {
 			result[v.name] = encodeURIComponent(v.value);
 		});
 		if(typeof obj == 'string') {
+			var arr, key, val;
 			$.each(obj.split('&'), function(k, v) {
-				v = encodeURIComponent(v);
-				result[v.split('=')[0]] = ((v.split('=').length > 1) ? v.split('=')[1] : '');
+				arr = v.split('='), key = arr[0];
+				if(arr.length > 1) {
+					arr.shift();
+					val = encodeURIComponent(arr.join('='));
+				} else if(arr.length == 1) {
+					val = encodeURIComponent(arr[1]);
+				} else {
+					val = '';
+				}
+				result[key] = val;
 			});
 		}
 		if(typeof obj == 'object') {
