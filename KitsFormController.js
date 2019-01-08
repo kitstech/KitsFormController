@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.4.0
+ * Version 0.5.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -22,12 +22,10 @@ function KitsFormController(formId) {
 			this.get(selector).val(_this.blank(value));
 		},
 		setDisabled: function(selector, flag) {
-			flag = ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
-			this.get(selector).attr('disabled', flag);
+			this.get(selector).attr('disabled', _this.verify(flag, true));
 		},
 		setReadonly: function(selector, flag) {
-			flag = ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
-			this.get(selector).attr('readonly', flag);
+			this.get(selector).attr('readonly', _this.verify(flag, true));
 		}
 	};
 	
@@ -149,6 +147,10 @@ KitsFormController.prototype.blank = function(s, d) {
 	} else {
 		return s;
 	}
+};
+
+KitsFormController.prototype.verify = function(obj, undefinedMode) {
+	return ((typeof obj == 'undefined') ? !!undefinedMode : ((typeof obj == 'boolean') ? obj : ((typeof obj == 'string' && (/^false$/i).test(obj)) ? false : !!obj)));
 };
 
 /*
