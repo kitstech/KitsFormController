@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.5.1
+ * Version 0.5.2
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -32,44 +32,44 @@ function KitsFormController(formId) {
 		}
 	};
 	
-	this.getById = function(id) {
-		return (_this.blank(id) == '') ? initObj : impl.get('#' + id);
-	};
 	this.get = function(name) {
 		return (_this.blank(name) == '') ? initObj : impl.get('[name=' + name + ']');
 	};
-	
-	this.getValueById = function(id) {
-		return (_this.blank(id) == '') ? '' : impl.getValue('#' + id);
+	this.getById = function(id) {
+		return (_this.blank(id) == '') ? initObj : impl.get('#' + id);
 	};
+	
 	this.getValue = function(name) {
 		return (_this.blank(name) == '') ? '' : impl.getValue('[name=' + name + ']');
 	};
-	
-	this.setValueById = function(id, value) {
-		if(_this.blank(id) != '') impl.setValue('#' + id, value);
-		return this;
+	this.getValueById = function(id) {
+		return (_this.blank(id) == '') ? '' : impl.getValue('#' + id);
 	};
+	
 	this.setValue = function(name, value) {
 		if(_this.blank(name) != '') impl.setValue('[name=' + name + ']', value);
 		return this;
 	};
-	
-	this.setDisabledById = function(id, flag) {
-		if(_this.blank(id) != '') impl.setDisabled('#' + id, flag);
+	this.setValueById = function(id, value) {
+		if(_this.blank(id) != '') impl.setValue('#' + id, value);
 		return this;
 	};
+	
 	this.setDisabled = function(name, flag) {
 		if(_this.blank(name) != '') impl.setDisabled('[name=' + name + ']', flag);
 		return this;
 	};
-	
-	this.setReadonlyById = function(id, flag) {
-		if(_this.blank(id) != '') impl.setReadonly('#' + id, flag);
+	this.setDisabledById = function(id, flag) {
+		if(_this.blank(id) != '') impl.setDisabled('#' + id, flag);
 		return this;
 	};
+	
 	this.setReadonly = function(name, flag) {
 		if(_this.blank(name) != '') impl.setReadonly('[name=' + name + ']', flag);
+		return this;
+	};
+	this.setReadonlyById = function(id, flag) {
+		if(_this.blank(id) != '') impl.setReadonly('#' + id, flag);
 		return this;
 	};
 	
