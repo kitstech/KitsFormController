@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.5.3
+ * Version 0.5.4
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -112,7 +112,7 @@ function KitsFormController(formId) {
 	this.getFormData2Json = function(obj) {//Object로 반환되기에 동일한 키값 입력될시 마지막에 입력된 값으로 덮어써짐에 유의
 		var result = {};
 		$.each(form.serializeArray(), function(k, v) {
-			result[v.name] = v.value;
+			result[v.name] = encodeURIComponent(v.value);
 		});
 		if(typeof obj == 'string') {
 			$.each(obj.split('&'), function(k, v) {

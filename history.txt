@@ -28,4 +28,6 @@ Commit 내역
         선언 순서 변경
     KitsFormController v0.5.3
         blank함수 리턴타입 수정
+    KitsFormController v0.5.4
+        getFormData2Json함수에서 값 처리시 encodeURIComponent사용하도록 수정
 /
