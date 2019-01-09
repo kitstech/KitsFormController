@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.5.7
+ * Version 0.6.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -71,81 +71,6 @@ function KitsFormController(formId) {
 	this.setReadonlyById = function(id, flag) {
 		if(that.blank(id) != '') impl.setReadonly('#' + id, flag);
 		return this;
-	};
-	
-	this.getFormData2String = function(obj) {
-		var result = form.serialize();
-		if(typeof obj == 'string') {
-			var s = (obj.startsWith('?') ? obj.substring(1) : obj);
-			s = (s.startsWith('&') ?  (result == '' ? s.substring(1) : s) :  (result == '' ? s :  '&' + s));
-			result += s;
-		}
-		if(typeof obj == 'object') {
-			if(obj.constructor == Array) {//obj는 [{string: string}, ...] 형태여야함
-				$.each(obj, function(k, v) {
-					if(typeof v == 'object' && v.constructor == Object) {
-						$.each(v, function(key, val) {
-							val = encodeURIComponent(val);
-							if(result == '') {
-								result = [key, val].join('=');
-							} else {
-								result = [result, [key, val].join('=')].join('&');
-							}
-						});
-					}
-				});
-			}
-			if(obj.constructor == Object) {//obj는 {string: string} 형태여야함
-				$.each(obj, function(k, v) {
-					v = encodeURIComponent(v);
-					if(result == '') {
-						result = [k, v].join('=');
-					} else {
-						result = [result, [k, v].join('=')].join('&');
-					}
-				});
-			}
-		}
-		return result;
-	};
-	
-	this.getFormData2Json = function(obj) {//Object로 반환되기에 동일한 키값 입력될시 마지막에 입력된 값으로 덮어써짐에 유의
-		var result = {};
-		$.each(form.serializeArray(), function(k, v) {
-			result[v.name] = encodeURIComponent(v.value);
-		});
-		if(typeof obj == 'string') {
-			var arr, key, val;
-			$.each(obj.split('&'), function(k, v) {
-				arr = v.split('='), key = arr[0];
-				if(arr.length > 1) {
-					arr.shift();
-					val = encodeURIComponent(arr.join('='));
-				} else if(arr.length == 1) {
-					val = encodeURIComponent(arr[1]);
-				} else {
-					val = '';
-				}
-				result[key] = val;
-			});
-		}
-		if(typeof obj == 'object') {
-			if(obj.constructor == Array) {//obj는 [{string: string}, ...] 형태여야함
-				$.each(obj, function(k, v) {
-					if(typeof v == 'object' && v.constructor == Object) {
-						$.each(v, function(key, val) {
-							result[key] = encodeURIComponent(val);
-						});
-					}
-				});
-			}
-			if(obj.constructor == Object) {//obj는 {string: string} 형태여야함
-				$.each(obj, function(k, v) {
-					result[k] = encodeURIComponent(v);
-				});
-			}
-		}
-		return result;
 	};
 }
 

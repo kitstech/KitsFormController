@@ -40,4 +40,6 @@ Commit 내역
 2019.01.09
     KitsFormController v0.5.7
         getValue 반환값에 blank함수 적용
+    KitsFormController v0.6.0
+        getFormData2Json/getFormData2String 보완을 위해 삭제
 /
