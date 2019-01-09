@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.5.6
+ * Version 0.5.7
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -16,7 +16,7 @@ function KitsFormController(formId) {
 			return form.find(selector);
 		},
 		getValue: function(selector) {
-			return this.get(selector).val();
+			return that.blank(this.get(selector).val());
 		},
 		setValue: function(selector, value) {
 			this.get(selector).val(that.blank(value));
