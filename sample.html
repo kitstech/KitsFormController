@@ -25,18 +25,21 @@ $(document).ready(function() {
 	fc.setValue('select1', 'opt3');
 
 	fc.setValue('radio1', 'r1');
-	fc.setValue('check1', 'c2');
-	fc.setValueById('check1');
+	fc.setValue('check1', 'c1');
+	fc.setValue('check1', 'c2::c3');
 
 	fc.setValue('area1', '가나다라마바사\n아자차카타파하');
 
-	console.log(11, fc.getFormData2String());
-	console.log(12, fc.getFormData2String('arg1=1&arg2=param=>2'));
-	console.log(13, fc.getFormData2String({arg1: 1, arg2: 'param=>2'}));
+	fc.setValue('string1', 'string!!');
+	fc.setValue('string2', 'A::B');
 
-	console.log(21, fc.getFormData2Json());
-	console.log(22, fc.getFormData2Json('arg1=1&arg2=param=>2'));
-	console.log(23, fc.getFormData2Json({arg1: 1, arg2: 'param=>2'}));
+	// console.log(11, fc.getFormData2String());
+	// console.log(12, fc.getFormData2String('arg1=1&arg2=param=>2'));
+	// console.log(13, fc.getFormData2String({arg1: 1, arg2: 'param=>2'}));
+
+	// console.log(21, fc.getFormData2Json());
+	// console.log(22, fc.getFormData2Json('arg1=1&arg2=param=>2'));
+	// console.log(23, fc.getFormData2Json({arg1: 1, arg2: 'param=>2'}));
 });
 </script>
 </head>
@@ -62,6 +65,14 @@ $(document).ready(function() {
 		<label><input type="checkbox" id="check3" name="check1" value="c3">체크3</label><br>
 
 		<textarea id="area1" name="area1"></textarea><br>
+
+		<input type="text" id="str1" name="string1" value="str1">
+		<input type="text" id="str2" name="string1" value="str2">
+		<input type="text" id="str3" name="string1" value="str3"><br>
+
+		<input type="text" id="str4" name="string2" value="str4">
+		<input type="text" id="str5" name="string2" value="str5">
+		<input type="text" id="str6" name="string2" value="str6"><br>
 		
 	</form>
 </body>
