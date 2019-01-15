@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.7.0
+ * Version 0.7.1
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -51,14 +51,18 @@ function KitsFormController(formId) {
 			return that.blank(val);
 		},
 		setValue: function(selector, value) {
-			var list = this.get(selector), valArr = that.blank(value).split(that.getDelimiter());
+			var list = this.get(selector), valArr = that.blank(value).split(that.getDelimiter()), isSetById = (that.blank(selector).startsWith('#') ? true : false), _this = this;
 			if(!!list.length) {
 				list.each(function(i, obj) {
 					if(obj.tagName == 'INPUT') {
 						if(constant.passingInputType.indexOf(obj.type) == -1) {
 							if(obj.type == 'checkbox' || obj.type == 'radio') {
-								if(valArr.indexOf(obj.value) > -1) {
-									obj.checked = true;
+								if(isSetById) {//setValueById로 호출되었으면 value값에 따라 해당 ID의 요소를 체크/체크해제 처리
+									obj.checked = _this.verify(value);
+								} else {
+									if(valArr.indexOf(obj.value) > -1) {
+										obj.checked = true;
+									}
 								}
 							} else {
 								obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
@@ -133,6 +137,9 @@ function KitsFormController(formId) {
 		if(that.blank(id) != '') impl.setReadonly('#' + id, flag);
 		return this;
 	};
+
+	this.getFormData2String = function() {};
+	this.getFormData2Object = function() {};
 }
 
 KitsFormController.prototype.blank = function(s, d) {
