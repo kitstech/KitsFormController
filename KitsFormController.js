@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.6.0
+ * Version 0.7.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -9,17 +9,70 @@ function KitsFormController(formId) {
 		return;
 	}
 	var that = this;
-	var initObj = $();
-	var form = (that.blank(formId) == '') ? initObj : $('#' + formId);
+	var constant = {
+		initObj: $(),//Empty jQuery object
+		delimiter: '::',//checkbox 등 다건의 name을 가진 요소의 value를 이어붙일 때 사용
+		passingInputType: ['button', 'file', 'image', 'reset', 'submit']//value function에서 처리하지 않을 input요소의 type. 참조 https://www.w3schools.com/tags/att_input_type.asp
+	};
+	var form = (that.blank(formId) == '') ? constant.initObj : $('#' + formId);
 	var impl = {
 		get: function(selector) {
 			return form.find(selector);
 		},
 		getValue: function(selector) {
-			return that.blank(this.get(selector).val());
+			var list = this.get(selector), val = '';
+			if(!!list.length) {
+				var isFirst = true;
+				list.each(function(i, obj) {
+					if(obj.tagName == 'INPUT') {
+						if(constant.passingInputType.indexOf(obj.type) == -1) {
+							if(obj.type == 'checkbox' || obj.type == 'radio') {
+								if(obj.checked) {
+									if(isFirst) {
+										val = obj.value;
+										isFirst = false;
+									} else {
+										val += (that.getDelimiter() + obj.value);
+									}
+								}
+							} else {
+								val += (i > 0 ? that.getDelimiter() : '') + encodeURIComponent(that.blank(obj.value));
+							}
+						}
+					} else if(obj.tagName == 'SELECT') {
+						val += (i > 0 ? that.getDelimiter() : '') + encodeURIComponent(that.blank(obj.value));
+					} else if(obj.tagName == 'TEXTAREA') {
+						val += (i > 0 ? that.getDelimiter() : '') + encodeURIComponent(that.blank(obj.value));
+					} else {
+						val = '';
+					}
+				});
+			}
+			return that.blank(val);
 		},
 		setValue: function(selector, value) {
-			this.get(selector).val(that.blank(value));
+			var list = this.get(selector), valArr = that.blank(value).split(that.getDelimiter());
+			if(!!list.length) {
+				list.each(function(i, obj) {
+					if(obj.tagName == 'INPUT') {
+						if(constant.passingInputType.indexOf(obj.type) == -1) {
+							if(obj.type == 'checkbox' || obj.type == 'radio') {
+								if(valArr.indexOf(obj.value) > -1) {
+									obj.checked = true;
+								}
+							} else {
+								obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+							}
+						}
+					} else if(obj.tagName == 'SELECT') {
+						obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+					} else if(obj.tagName == 'TEXTAREA') {
+						obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+					} else {
+						//Do nothing
+					}
+				});
+			}
 		},
 		setDisabled: function(selector, flag) {
 			this.get(selector).attr('disabled', this.verify(flag));
@@ -32,11 +85,19 @@ function KitsFormController(formId) {
 		}
 	};
 	
+	this.getDelimiter = function() {
+		return constant.delimiter;
+	};
+	this.setDelimiter = function(str) {
+		constant.delimiter = that.blank(str);
+		return this;
+	};
+	
 	this.get = function(name) {
-		return (that.blank(name) == '') ? initObj : impl.get('[name=' + name + ']');
+		return (that.blank(name) == '') ? constant.initObj : impl.get('[name=' + name + ']');
 	};
 	this.getById = function(id) {
-		return (that.blank(id) == '') ? initObj : impl.get('#' + id);
+		return (that.blank(id) == '') ? constant.initObj : impl.get('#' + id);
 	};
 	
 	this.getValue = function(name) {

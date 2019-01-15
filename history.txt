@@ -42,4 +42,9 @@ Commit 내역
         getValue 반환값에 blank함수 적용
     KitsFormController v0.6.0
         getFormData2Json/getFormData2String 보완을 위해 삭제
+
+2019.01.15
+    KitsFormController v0.7.0
+        getValue/setValue 기능 수정
+        다건의 요소 처리시 구분자를 통해 값을 get/set
 /
