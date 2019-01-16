@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.7.1
+ * Version 0.7.2
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -20,31 +20,38 @@ function KitsFormController(formId) {
 			return form.find(selector);
 		},
 		getValue: function(selector) {
-			var list = this.get(selector), val = '';
+			var list = this.get(selector), val = '', isSetById = (that.blank(selector).startsWith('#') ? true : false);
 			if(!!list.length) {
-				var isFirst = true;
+				var isFirst = true, isValid = false;
 				list.each(function(i, obj) {
 					if(obj.tagName == 'INPUT') {
 						if(constant.passingInputType.indexOf(obj.type) == -1) {
 							if(obj.type == 'checkbox' || obj.type == 'radio') {
-								if(obj.checked) {
-									if(isFirst) {
-										val = obj.value;
-										isFirst = false;
-									} else {
-										val += (that.getDelimiter() + obj.value);
+								if(isSetById) {//setValueById로 호출되었으면 체크여부 상관없이 해당 요소의 value값 반환
+									isValid = true;
+								} else {
+									if(obj.checked) {
+										isValid = true;
 									}
 								}
 							} else {
-								val += (i > 0 ? that.getDelimiter() : '') + encodeURIComponent(that.blank(obj.value));
+								isValid = true;
 							}
 						}
 					} else if(obj.tagName == 'SELECT') {
-						val += (i > 0 ? that.getDelimiter() : '') + encodeURIComponent(that.blank(obj.value));
+						isValid = true;
 					} else if(obj.tagName == 'TEXTAREA') {
-						val += (i > 0 ? that.getDelimiter() : '') + encodeURIComponent(that.blank(obj.value));
-					} else {
-						val = '';
+						isValid = true;
+					}
+
+					if(isValid) {
+						if(isFirst) {
+							val = encodeURIComponent(that.blank(obj.value));
+							isFirst = false;
+						} else {
+							val += (that.getDelimiter() + encodeURIComponent(that.blank(obj.value)));
+						}
+						isValid = false;
 					}
 				});
 			}
@@ -72,8 +79,6 @@ function KitsFormController(formId) {
 						obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
 					} else if(obj.tagName == 'TEXTAREA') {
 						obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
-					} else {
-						//Do nothing
 					}
 				});
 			}
