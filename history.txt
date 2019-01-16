@@ -71,4 +71,7 @@ Commit 내역
 
     KitsFormController v0.11.0
         default delimiter를 ","로 변경
+    KitsFormController v0.11.1
+        blank함수의 인자로 숫자0 전달시 ""리턴되는 버그 수정
+        (javascript에서 "0 == ''"은 true를 반환)
 /
