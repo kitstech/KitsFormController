@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.9.0
+ * Version 0.10.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -46,10 +46,10 @@ function KitsFormController(formId) {
 
 					if(isValid) {
 						if(isFirst) {
-							val = encodeURIComponent(that.blank(v.value));
+							val = that.encode(that.blank(v.value));
 							isFirst = false;
 						} else {
-							val += (that.getDelimiter() + encodeURIComponent(that.blank(v.value)));
+							val += (that.getDelimiter() + that.encode(that.blank(v.value)));
 						}
 						isValid = false;
 					}
@@ -93,6 +93,9 @@ function KitsFormController(formId) {
 			return ((typeof flag == 'undefined') ? true : ((typeof flag == 'boolean') ? flag : ((typeof flag == 'string' && (/^false$/i).test(flag)) ? false : !!flag)));
 		}
 	};
+
+	this.encode = encodeURIComponent;
+	this.decode = decodeURIComponent;
 	
 	this.getDelimiter = function() {
 		return constant.delimiter;
@@ -143,17 +146,89 @@ function KitsFormController(formId) {
 		return this;
 	};
 
-	this.getFormData2Object = function() {
-		var result = {}, list = that.getNames();
+	this.getFormData2Object = function(obj, opt) {
+		var result = {}, list = that.getNames(), opt = opt || {append: false};
 		for(var i=0; i<list.length; i++) {
 			result[list[i]] = that.getValue(list[i]);
 		}
+
+		if(typeof obj == 'string') {
+			var str = (obj.startsWith('?') || obj.startsWith('&')) ? obj.substring(1) : obj;
+			var key, val, arr;
+			$.each(str.split('&'), function(i, v) {
+				arr = v.split('='), key = arr[0];
+				if(arr.length > 2) {
+					arr.shift();
+					val = fc.encode(arr.join('='));
+				} else if(arr.length == 2) {
+					val = that.encode(arr[1]);
+				}
+				if(opt.append == true) {
+					if((typeof result[key] == 'undefined')) {
+						result[key] = val;
+					} else {
+						result[key] = [result[key], val].join(that.getDelimiter());
+					}
+				} else {
+					result[key] = val;
+				}
+			});
+		} else if(typeof obj == 'object') {
+			var val = '';
+			if(obj.constructor == Array) {
+				$.each(obj, function(i, v) {
+					$.each(v, function(j, w) {
+						val = that.encode(that.blank(w));
+						if(impl.verify(opt.append)) {
+							if((typeof result[j] == 'undefined')) {
+								result[j] = val;
+							} else {
+								result[j] = [result[j], val].join(that.getDelimiter());
+							}
+						} else {
+							result[j] = val;
+						}
+					});
+				});
+			}
+			if(obj.constructor == Object) {
+				$.each(obj, function(i, v) {
+					val = that.encode(that.blank(v));
+					if(opt.append == true) {
+						if((typeof result[i] == 'undefined')) {
+							result[i] = val;
+						} else {
+							result[i] = [result[i], val].join(that.getDelimiter());
+						}
+					} else {
+						result[i] = that.encode(v);
+					}
+				});
+			}
+		}
 		return result;
 	};
-	this.getFormData2String = function() {
+	this.getFormData2String = function(obj) {
 		var result = [], list = that.getNames();
 		for(var i=0; i<list.length; i++) {
 			result.push([list[i], that.getValue(list[i])].join('='));
+		}
+
+		if(typeof obj == 'string') {
+			result.push((obj.startsWith('?') || obj.startsWith('&')) ? obj.substring(1) : obj);
+		} else if(typeof obj == 'object') {
+			if(obj.constructor == Array) {
+				$.each(obj, function(i, v) {
+					$.each(v, function(j, w) {
+						result.push([j, that.encode(w)].join('='));
+					});
+				});
+			}
+			if(obj.constructor == Object) {
+				$.each(obj, function(i, v) {
+					result.push([i, that.encode(v)].join('='));
+				});
+			}
 		}
 		return result.join('&');
 	};

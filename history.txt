@@ -64,4 +64,8 @@ Commit 내역
     KitsFormController v0.9.0
         getNames function 추가
         getFormData2Object, getFormData2String의 공통부분 getNames로 처리
+
+    KitsFormController v0.10.0
+        getFormData2Object, getFormData2String에 인자를 전달하여
+        전달된 객체의 내용을 반환값에 추가할 수 있도록 수정
 /
