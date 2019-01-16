@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.8.0
+ * Version 0.8.1
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -23,14 +23,14 @@ function KitsFormController(formId) {
 			var list = this.get(selector), val = '', isSetById = (that.blank(selector).startsWith('#') ? true : false);
 			if(!!list.length) {
 				var isFirst = true, isValid = false;
-				list.each(function(i, obj) {
-					if(obj.tagName == 'INPUT') {
-						if(constant.passingInputType.indexOf(obj.type) == -1) {
-							if(obj.type == 'checkbox' || obj.type == 'radio') {
+				list.each(function(i, v) {
+					if(v.tagName == 'INPUT') {
+						if(constant.passingInputType.indexOf(v.type) == -1) {
+							if(v.type == 'checkbox' || v.type == 'radio') {
 								if(isSetById) {//setValueById로 호출되었으면 체크여부 상관없이 해당 요소의 value값 반환
 									isValid = true;
 								} else {
-									if(obj.checked) {
+									if(v.checked) {
 										isValid = true;
 									}
 								}
@@ -38,18 +38,18 @@ function KitsFormController(formId) {
 								isValid = true;
 							}
 						}
-					} else if(obj.tagName == 'SELECT') {
+					} else if(v.tagName == 'SELECT') {
 						isValid = true;
-					} else if(obj.tagName == 'TEXTAREA') {
+					} else if(v.tagName == 'TEXTAREA') {
 						isValid = true;
 					}
 
 					if(isValid) {
 						if(isFirst) {
-							val = encodeURIComponent(that.blank(obj.value));
+							val = encodeURIComponent(that.blank(v.value));
 							isFirst = false;
 						} else {
-							val += (that.getDelimiter() + encodeURIComponent(that.blank(obj.value)));
+							val += (that.getDelimiter() + encodeURIComponent(that.blank(v.value)));
 						}
 						isValid = false;
 					}
@@ -60,25 +60,25 @@ function KitsFormController(formId) {
 		setValue: function(selector, value) {
 			var list = this.get(selector), valArr = that.blank(value).split(that.getDelimiter()), isSetById = (that.blank(selector).startsWith('#') ? true : false), _this = this;
 			if(!!list.length) {
-				list.each(function(i, obj) {
-					if(obj.tagName == 'INPUT') {
-						if(constant.passingInputType.indexOf(obj.type) == -1) {
-							if(obj.type == 'checkbox' || obj.type == 'radio') {
+				list.each(function(i, v) {
+					if(v.tagName == 'INPUT') {
+						if(constant.passingInputType.indexOf(v.type) == -1) {
+							if(v.type == 'checkbox' || v.type == 'radio') {
 								if(isSetById) {//setValueById로 호출되었으면 value값에 따라 해당 ID의 요소를 체크/체크해제 처리
-									obj.checked = _this.verify(value);
+									v.checked = _this.verify(value);
 								} else {
-									if(valArr.indexOf(obj.value) > -1) {
-										obj.checked = true;
+									if(valArr.indexOf(v.value) > -1) {
+										v.checked = true;
 									}
 								}
 							} else {
-								obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+								v.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
 							}
 						}
-					} else if(obj.tagName == 'SELECT') {
-						obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
-					} else if(obj.tagName == 'TEXTAREA') {
-						obj.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+					} else if(v.tagName == 'SELECT') {
+						v.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+					} else if(v.tagName == 'TEXTAREA') {
+						v.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
 					}
 				});
 			}
@@ -146,9 +146,9 @@ function KitsFormController(formId) {
 	this.getFormData2Object = function() {
 		var result = {}, names = [];
 		var all = form.find('input, select, textarea');
-		all.each(function(i, obj) {
-			if(that.blank(obj.name) != '') {
-				names.push(obj.name);
+		all.each(function(i, v) {
+			if(that.blank(v.name) != '') {
+				names.push(v.name);
 			}
 		});
 		var uniq = names.reduce(function(a, b) {
@@ -163,9 +163,9 @@ function KitsFormController(formId) {
 	this.getFormData2String = function() {
 		var result = [], names = [];
 		var all = form.find('input, select, textarea');
-		all.each(function(i, obj) {
-			if(that.blank(obj.name) != '') {
-				names.push(obj.name);
+		all.each(function(i, v) {
+			if(that.blank(v.name) != '') {
+				names.push(v.name);
 			}
 		});
 		var uniq = names.reduce(function(a, b) {
