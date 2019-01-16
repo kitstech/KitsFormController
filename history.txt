@@ -60,4 +60,8 @@ Commit 내역
         getFormData2Object, getFormData2String 구현
     KitsFormController v0.8.1
         naming 수정
+
+    KitsFormController v0.9.0
+        getNames function 추가
+        getFormData2Object, getFormData2String의 공통부분 getNames로 처리
 /

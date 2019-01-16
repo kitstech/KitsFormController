@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.8.1
+ * Version 0.9.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -144,38 +144,31 @@ function KitsFormController(formId) {
 	};
 
 	this.getFormData2Object = function() {
-		var result = {}, names = [];
-		var all = form.find('input, select, textarea');
-		all.each(function(i, v) {
-			if(that.blank(v.name) != '') {
-				names.push(v.name);
-			}
-		});
-		var uniq = names.reduce(function(a, b) {
-			if(a.indexOf(b) < 0) a.push(b);
-			return a;
-		}, []);
-		for(var i=0; i<uniq.length; i++) {
-			result[uniq[i]] = that.getValue(uniq[i]);
+		var result = {}, list = that.getNames();
+		for(var i=0; i<list.length; i++) {
+			result[list[i]] = that.getValue(list[i]);
 		}
 		return result;
 	};
 	this.getFormData2String = function() {
-		var result = [], names = [];
-		var all = form.find('input, select, textarea');
+		var result = [], list = that.getNames();
+		for(var i=0; i<list.length; i++) {
+			result.push([list[i], that.getValue(list[i])].join('='));
+		}
+		return result.join('&');
+	};
+
+	this.getNames = function() {
+		var names = [], all = form.find('input, select, textarea');
 		all.each(function(i, v) {
 			if(that.blank(v.name) != '') {
 				names.push(v.name);
 			}
 		});
-		var uniq = names.reduce(function(a, b) {
+		return (names.reduce(function(a, b) {
 			if(a.indexOf(b) < 0) a.push(b);
 			return a;
-		}, []);
-		for(var i=0; i<uniq.length; i++) {
-			result.push([uniq[i], that.getValue(uniq[i])].join('='));
-		}
-		return result.join('&');
+		}, []));
 	};
 }
 
