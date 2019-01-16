@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.7.2
+ * Version 0.8.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -143,8 +143,40 @@ function KitsFormController(formId) {
 		return this;
 	};
 
-	this.getFormData2String = function() {};
-	this.getFormData2Object = function() {};
+	this.getFormData2Object = function() {
+		var result = {}, names = [];
+		var all = form.find('input, select, textarea');
+		all.each(function(i, obj) {
+			if(that.blank(obj.name) != '') {
+				names.push(obj.name);
+			}
+		});
+		var uniq = names.reduce(function(a, b) {
+			if(a.indexOf(b) < 0) a.push(b);
+			return a;
+		}, []);
+		for(var i=0; i<uniq.length; i++) {
+			result[uniq[i]] = that.getValue(uniq[i]);
+		}
+		return result;
+	};
+	this.getFormData2String = function() {
+		var result = [], names = [];
+		var all = form.find('input, select, textarea');
+		all.each(function(i, obj) {
+			if(that.blank(obj.name) != '') {
+				names.push(obj.name);
+			}
+		});
+		var uniq = names.reduce(function(a, b) {
+			if(a.indexOf(b) < 0) a.push(b);
+			return a;
+		}, []);
+		for(var i=0; i<uniq.length; i++) {
+			result.push([uniq[i], that.getValue(uniq[i])].join('='));
+		}
+		return result.join('&');
+	};
 }
 
 KitsFormController.prototype.blank = function(s, d) {

@@ -55,4 +55,7 @@ Commit 내역
         getValue 기능 수정
         체크박스/라디오버튼 요소를 getValueById로 호출시
         체크여부와 상관없이 해당 요소의 value값 반환처리
+
+    KitsFormController v0.8.0
+        getFormData2Object, getFormData2String 구현
 /
