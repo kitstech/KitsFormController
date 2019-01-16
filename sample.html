@@ -34,13 +34,15 @@ $(document).ready(function() {
 	fc.setValue('string1', 'string!!');
 	fc.setValue('string2', 'A::B');
 
-	// console.log(11, fc.getFormData2String());
-	// console.log(12, fc.getFormData2String('arg1=1&arg2=param=>2'));
-	// console.log(13, fc.getFormData2String({arg1: 1, arg2: 'param=>2'}));
+	console.log(11, fc.getFormData2String());
+	console.log(12, fc.getFormData2String('arg1=1&arg2=param=>2'));
+	console.log(13, fc.getFormData2String({arg1: 1, arg2: 'param=>2'}));
+	console.log(14, fc.getFormData2String([{arg1: 1, arg2: 'param=>2'}, {arg3: 3, arg4: 'param=>4'}]));
 
-	// console.log(21, fc.getFormData2Json());
-	// console.log(22, fc.getFormData2Json('arg1=1&arg2=param=>2'));
-	// console.log(23, fc.getFormData2Json({arg1: 1, arg2: 'param=>2'}));
+	console.log(21, fc.getFormData2Object());
+	console.log(22, fc.getFormData2Object('arg1=1&arg2=param->2&check1=c4'));
+	console.log(23, fc.getFormData2Object({arg1: 1, arg2: 'param=>2', check1: 'c4'}));
+	console.log(24, fc.getFormData2Object({arg1: 1, arg2: 'param=>2', check1: 'c4'}, {append: true}));
 });
 </script>
 </head>
