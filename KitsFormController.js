@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.10.0
+ * Version 0.11.0
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -11,7 +11,7 @@ function KitsFormController(formId) {
 	var that = this;
 	var constant = {
 		initObj: $(),//Empty jQuery object
-		delimiter: '::',//checkbox 등 다건의 name을 가진 요소의 value를 이어붙일 때 사용
+		delimiter: ',',//checkbox 등 다건의 name을 가진 요소의 value를 이어붙일 때 사용
 		passingInputType: ['button', 'file', 'image', 'reset', 'submit']//value function에서 처리하지 않을 input요소의 type. 참조 https://www.w3schools.com/tags/att_input_type.asp
 	};
 	var form = (that.blank(formId) == '') ? constant.initObj : $('#' + formId);
