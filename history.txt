@@ -49,4 +49,10 @@ Commit 내역
         다건의 요소 처리시 구분자를 통해 값을 get/set
     KitsFormController v0.7.1
         setValueById를 통해 체크박스/라디오버튼 설정시 입력값에따라 체크/체크해제 처리되도록 수정
+
+2019.01.15
+    KitsFormController v0.7.2
+        getValue 기능 수정
+        체크박스/라디오버튼 요소를 getValueById로 호출시
+        체크여부와 상관없이 해당 요소의 value값 반환처리
 /
