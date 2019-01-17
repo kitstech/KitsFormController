@@ -98,42 +98,32 @@ function KitsFormController(formId, opt) {
 	};
 
 	this.encode = function(str) {
-		opt.crypto = ($.type(opt.crypto) == 'object') ? opt.crypto : {};
-		if(impl.verify(that.blank(opt.crypto.enabled))) {
-			if(/base64/i.test(that.blank(opt.crypto.mode))) {
-				/*
-				 * https://developer.mozilla.org/ko/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
-				 */
-				return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-					function toSolidBytes(match, p1) {
-						return String.fromCharCode('0x' + p1);
-				}));
-			} else {
-				/*
-				 * RFC 3986 (다음과 같은 예약어 포함 !, ', (, ), *) 권고에 보다 엄격하게 적용
-				 * https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-				 */
-				return encodeURIComponent(str).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
-			}
+		if(/base64/i.test(that.blank(opt.crypto))) {
+			/*
+			 * https://developer.mozilla.org/ko/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+			 */
+			return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+				function toSolidBytes(match, p1) {
+					return String.fromCharCode('0x' + p1);
+			}));
 		} else {
-			return str;
+			/*
+			 * RFC 3986 (다음과 같은 예약어 포함 !, ', (, ), *) 권고에 보다 엄격하게 적용
+			 * https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+			 */
+			return encodeURIComponent(str).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 		}
 	};
 	this.decode = function(str) {
-		opt.crypto = ($.type(opt.crypto) == 'object') ? opt.crypto : {};
-		if(impl.verify(that.blank(opt.crypto.enabled))) {
-			if(/base64/i.test(that.blank(opt.crypto))) {
-				/*
-				 * https://developer.mozilla.org/ko/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
-				 */
-				return decodeURIComponent(atob(str).split('').map(function(c) {
-					return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-				}).join(''));
-			} else {
-				return decodeURIComponent(str);
-			}
+		if(/base64/i.test(that.blank(opt.crypto))) {
+			/*
+			 * https://developer.mozilla.org/ko/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+			 */
+			return decodeURIComponent(atob(str).split('').map(function(c) {
+				return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+			}).join(''));
 		} else {
-			return str;
+			return decodeURIComponent(str);
 		}
 	};
 	
