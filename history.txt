@@ -79,4 +79,6 @@ Commit 내역
     KitsFormController v0.11.2
         RFC 3986 (다음과 같은 예약어 포함 !, ', (, ), *) 권고에 보다 엄격하게 적용되게 하기 위해
         encodeURIComponent에서 지원하지 않는 다른 문자에 대해서도 처리
+    KitsFormController v0.11.3
+        일부 필드의 명칭 변경
 /

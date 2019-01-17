@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.11.2
+ * Version 0.11.3
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -10,17 +10,18 @@ function KitsFormController(formId) {
 	}
 	var that = this;
 	var constant = {
-		initObj: $(),//Empty jQuery object
+		emptyJqObj: $(),//Empty jQuery object
 		delimiter: ',',//checkbox 등 다건의 name을 가진 요소의 value를 이어붙일 때 사용
 		passingInputType: ['button', 'file', 'image', 'reset', 'submit']//value function에서 처리하지 않을 input요소의 type. 참조 https://www.w3schools.com/tags/att_input_type.asp
 	};
-	var form = (that.blank(formId) == '') ? constant.initObj : $('#' + formId);
+	var form = (that.blank(formId) == '') ? constant.emptyJqObj : $('#' + formId);
 	var impl = {
 		get: function(selector) {
 			return form.find(selector);
 		},
 		getValue: function(selector) {
-			var list = this.get(selector), val = '', isSetById = (that.blank(selector).startsWith('#') ? true : false);
+			var result = '';
+			var list = this.get(selector), isSetById = (that.blank(selector).startsWith('#') ? true : false);
 			if(!!list.length) {
 				var isFirst = true, isValid = false;
 				list.each(function(i, v) {
@@ -46,20 +47,21 @@ function KitsFormController(formId) {
 
 					if(isValid) {
 						if(isFirst) {
-							val = that.encode(that.blank(v.value));
+							result = that.encode(that.blank(v.value));
 							isFirst = false;
 						} else {
-							val += (that.getDelimiter() + that.encode(that.blank(v.value)));
+							result += (that.getDelimiter() + that.encode(that.blank(v.value)));
 						}
 						isValid = false;
 					}
 				});
 			}
-			return that.blank(val);
+			return that.blank(result);
 		},
 		setValue: function(selector, value) {
-			var list = this.get(selector), valArr = that.blank(value).split(that.getDelimiter()), isSetById = (that.blank(selector).startsWith('#') ? true : false), _this = this;
+			var list = this.get(selector), isSetById = (that.blank(selector).startsWith('#') ? true : false);
 			if(!!list.length) {
+				var _this = this, arr = that.blank(value).split(that.getDelimiter());
 				list.each(function(i, v) {
 					if(v.tagName == 'INPUT') {
 						if(constant.passingInputType.indexOf(v.type) == -1) {
@@ -67,18 +69,18 @@ function KitsFormController(formId) {
 								if(isSetById) {//setValueById로 호출되었으면 value값에 따라 해당 ID의 요소를 체크/체크해제 처리
 									v.checked = _this.verify(value);
 								} else {
-									if(valArr.indexOf(v.value) > -1) {
+									if(arr.indexOf(v.value) > -1) {
 										v.checked = true;
 									}
 								}
 							} else {
-								v.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+								v.value = arr.length == 1 ? arr[0] : arr[i] || '';
 							}
 						}
 					} else if(v.tagName == 'SELECT') {
-						v.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+						v.value = arr.length == 1 ? arr[0] : arr[i] || '';
 					} else if(v.tagName == 'TEXTAREA') {
-						v.value = valArr.length == 1 ? valArr[0] : valArr[i] || '';
+						v.value = arr.length == 1 ? arr[0] : arr[i] || '';
 					}
 				});
 			}
@@ -114,10 +116,10 @@ function KitsFormController(formId) {
 	};
 	
 	this.get = function(name) {
-		return (that.blank(name) == '') ? constant.initObj : impl.get('[name=' + name + ']');
+		return (that.blank(name) == '') ? constant.emptyJqObj : impl.get('[name=' + name + ']');
 	};
 	this.getById = function(id) {
-		return (that.blank(id) == '') ? constant.initObj : impl.get('#' + id);
+		return (that.blank(id) == '') ? constant.emptyJqObj : impl.get('#' + id);
 	};
 	
 	this.getValue = function(name) {
