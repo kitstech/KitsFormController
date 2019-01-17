@@ -1,7 +1,7 @@
 /*
  * https://github.com/kitstech/KitsFormController
  * Kits Form Controller(Requires jQuery)
- * Version 0.11.1
+ * Version 0.11.2
  */
 function KitsFormController(formId) {
 	if(typeof $ == 'undefined') {
@@ -94,8 +94,16 @@ function KitsFormController(formId) {
 		}
 	};
 
-	this.encode = encodeURIComponent;
-	this.decode = decodeURIComponent;
+	this.encode = function(str) {
+		/*
+		 * RFC 3986 (다음과 같은 예약어 포함 !, ', (, ), *) 권고에 보다 엄격하게 적용
+		 * https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+		 */
+		return encodeURIComponent(str).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+	};
+	this.decode = function(str) {
+		return decodeURIComponent(str);
+	};
 	
 	this.getDelimiter = function() {
 		return constant.delimiter;
