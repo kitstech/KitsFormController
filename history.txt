@@ -88,4 +88,10 @@ Commit 내역
     KitsFormController v0.12.1
         객체 생성시 옵션인자 추가
         인자로 {crypto: {enabled: true|false, mode: 'base64'}} 전달시, enabled로 사용여부 설정가능
+
+2019.01.18
+    KitsFormController v0.13.0
+        encode/decode 삭제
+        getValue/setValue 수정
+        getFormDataToObject/getFormDataToString 수정
 /
